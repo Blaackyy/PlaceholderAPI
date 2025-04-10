@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.tcoded.folialib.FoliaLib;
 import me.clip.placeholderapi.commands.PlaceholderCommandRouter;
 import me.clip.placeholderapi.configuration.PlaceholderAPIConfig;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -54,6 +56,7 @@ public final class PlaceholderAPIPlugin extends JavaPlugin {
   @NotNull
   private static final Version VERSION;
   private static PlaceholderAPIPlugin instance;
+  private static FoliaLib foliaLib;
 
   static {
     String version = Bukkit.getServer().getBukkitVersion().split("-")[0];
@@ -143,9 +146,14 @@ public final class PlaceholderAPIPlugin extends JavaPlugin {
     return VERSION;
   }
 
+  public static FoliaLib getFoliaLib() {
+    return foliaLib;
+  }
+
   @Override
   public void onLoad() {
     instance = this;
+    foliaLib = new FoliaLib(this);
 
     saveDefaultConfig();
   }
@@ -174,7 +182,8 @@ public final class PlaceholderAPIPlugin extends JavaPlugin {
 
     HandlerList.unregisterAll(this);
 
-    Bukkit.getScheduler().cancelTasks(this);
+    //Bukkit.getScheduler().cancelTasks(this);
+    foliaLib.getScheduler().cancelAllTasks();
 
     adventure.close();
     adventure = null;

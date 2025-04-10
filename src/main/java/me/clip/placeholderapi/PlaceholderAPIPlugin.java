@@ -271,8 +271,7 @@ public final class PlaceholderAPIPlugin extends JavaPlugin {
       Class.forName("org.bukkit.event.server.ServerLoadEvent");
       new ServerLoadEventListener(this);
     } catch (final ClassNotFoundException ignored) {
-      Bukkit.getScheduler()
-          .runTaskLater(this, () -> getLocalExpansionManager().load(Bukkit.getConsoleSender()), 1);
+      getFoliaLib().getScheduler().runNextTick((task) -> getLocalExpansionManager().load(Bukkit.getConsoleSender()));
     }
   }
 
